@@ -21,3 +21,5 @@ generator.read_files(filenames)
 print generator.make_text()
 
 #tweet_text = 
+
+#status = api.PostUpdate(tweet_text)
