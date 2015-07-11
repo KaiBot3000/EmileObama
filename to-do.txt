@@ -1,0 +1,3 @@
+O strip out punctuation that isn't .?!
+O start on capitalized word, or capitalize start word
+O 
