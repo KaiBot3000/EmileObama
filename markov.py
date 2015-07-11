@@ -46,6 +46,7 @@ class MarkovMachine(object):
         return words
 
     def tidy_text(self, text):
+        TWEET_TEXT_LENGTH = 140
         #runs replace for puctuation
         characters_to_replace = {
                                 '...': '',
@@ -53,24 +54,38 @@ class MarkovMachine(object):
                                 '[': '',
                                 ']': '',
                                 '(': '',
-                                ')': ''
+                                ')': '',
+                                ' . ': ' ',
+                                '"': ''
                                 }
         for key, value in characters_to_replace.iteritems():
             text = text.replace(key, value)
-        #capitalizes characters at beginning and after periods
+        #Capitalizes first character (capitalize() removes other caps)
+        #adds first character to clean text
+        clean_text = text[:1].upper() + text[1]
+        #capitalizes text after punctuation
+        i = 2
+        while i < len(text):
+            if text[i - 2] == '.' or text[i - 2] == '!' or text[i - 2] == '?':
+                clean_text += text[i].upper()
+            else:
+                clean_text += text[i]
+            i += 1
 
         #adds punctuation at end.
-        return text
+        # or sets word_limit, and deletes everything after last puctuation 
+        j = 0
+        while j < len(clean_text[:TWEET_TEXT_LENGTH]):
+            if text[j] == '.' or text[j] == '!' or text[j] == '?':
+                last_punctuation_location = j
+            j += 1
+        tweetable_clean_text = clean_text[:last_punctuation_location + 1]
+        return tweetable_clean_text
 
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # filenames = sys.argv[1:]
-
-
-
-    generator = MarkovMachine()
+    # generator = MarkovMachine()
     # generator.read_files(filenames)
-    #print generator.make_text()
-
-    test_text = "so much.   [brackets] \n and (paren) and... ---"
-    generator.tidy_text(test_text)
+    # markov_text = generator.make_text()
+    # formatted_text = generator.tidy_text(markov_text)

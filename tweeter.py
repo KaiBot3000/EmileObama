@@ -18,8 +18,9 @@ filenames = sys.argv[1:]
 
 generator = MarkovMachine()
 generator.read_files(filenames)
-print generator.make_text()
+unformatted_text = generator.make_text()
+formatted_text = generator.tidy_text(unformatted_text)
 
-#tweet_text = 
-
-#status = api.PostUpdate(tweet_text)
+# tweet_text = 'Yes we can. When the bombs fell on our freedom.'
+print formatted_text + '\n*****************\n'
+status = api.PostUpdate(formatted_text)
