@@ -34,11 +34,12 @@ class MarkovMachine(object):
 
     def make_text(self):
         """Takes dictionary of markov chains; returns random text."""
-
+        MAX_TEXT_LENGTH = 300
         key = choice(self.chains.keys())
-        words = [key[0], key[1]]
+        #words = [key[0], key[1]]
+        words = " ".join([key[0], key[1]])
 
-        while key in self.chains:
+        while key in self.chains and len(words) < 300:
             # Keep looping until we have a key that isn't in the chains
             # (which would mean it was the end of our original text)
             #
@@ -46,18 +47,22 @@ class MarkovMachine(object):
             # it would run for a very long time.
 
             word = choice(self.chains[key])
-            words.append(word)
+            #words.append(word)
+            words += " " + word
             key = (key[1], word)
 
-        text = " ".join(words)
+        #text = " ".join(words)
 
         # This is the clumsiest way to make sure it's never longer than
         # 140 characters; can you think of better ways?
-        return text[:140]
+        #return text[:MAX_TEXT_LENGTH]
+        return words
 
 
 if __name__ == "__main__":
     filenames = sys.argv[1:]
+
+
 
     generator = MarkovMachine()
     generator.read_files(filenames)
